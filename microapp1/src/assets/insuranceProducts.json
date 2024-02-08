@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "Auto Insurance",
+    "coverage": "$100,000",
+    "premium": "$500/year"
+  },
+  {
+    "id": 2,
+    "name": "Home Insurance",
+    "coverage": "$200,000",
+    "premium": "$800/year"
+  }
+]
