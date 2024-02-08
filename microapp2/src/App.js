@@ -1,12 +1,13 @@
-import "./App.scss";
+import React from "react";
 import Payment from "./Payment";
+import "./App.scss";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Payment></Payment>
+    <div>
+      <Payment />
     </div>
   );
-}
+};
 
 export default App;

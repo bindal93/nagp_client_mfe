@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { isDevEnv } from "./index";
+import "./Payment.scss";
 
 const Payment = () => {
   const [paymentStatus, setPaymentStatus] = useState(null);
+
   const handlePayment = () => {
     setPaymentStatus("Payment Successful!");
+
     if (!isDevEnv) {
       const paymentSuccessEvent = new CustomEvent("paymentSuccessful");
       window.dispatchEvent(paymentSuccessEvent);
@@ -12,10 +15,10 @@ const Payment = () => {
   };
 
   return (
-    <div>
+    <div className="payment-container">
       <h2>Payment Page</h2>
       <button onClick={handlePayment}>Make Payment</button>
-      {paymentStatus && <p>{paymentStatus}</p>}
+      {paymentStatus && <p className="payment-status">{paymentStatus}</p>}
     </div>
   );
 };

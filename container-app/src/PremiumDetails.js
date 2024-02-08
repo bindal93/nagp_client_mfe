@@ -6,16 +6,21 @@ const PremiumDetails = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const calculatePremium = async (formData, selectedProduct) => {
-      const { calculatePremiumWorker } = await import("./assets/calculator.worker.js");
+      const { calculatePremiumWorker } = await import(
+        "./assets/calculator.worker.js"
+      );
       const result = calculatePremiumWorker(formData, selectedProduct);
       const responseEvent = new CustomEvent("resolvedCalPremium", {
-        detail: { result }
+        detail: { result },
       });
       window.dispatchEvent(responseEvent);
     };
 
     const calPremiumCallback = (data) => {
-      calculatePremium({ ...data.detail.formData }, { ...data.detail.selectedProduct });
+      calculatePremium(
+        { ...data.detail.formData },
+        { ...data.detail.selectedProduct },
+      );
     };
 
     window.addEventListener("calPremium", calPremiumCallback);
