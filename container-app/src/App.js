@@ -1,12 +1,8 @@
-import {
-  Link,
-  Outlet,
-  RouterProvider,
-  createBrowserRouter,
-} from "react-router-dom";
+import { Link, Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.scss";
 import Home from "./Home";
 import PremiumDetails from "./PremiumDetails";
+import { Payment } from "./Payment";
 
 const appRouter = createBrowserRouter([
   {
@@ -38,10 +34,14 @@ const appRouter = createBrowserRouter([
       { path: "/", element: <Home /> },
       {
         path: "/premium-details",
-        element: <PremiumDetails />,
+        element: <PremiumDetails />
       },
-    ],
-  },
+      {
+        path: "/payment",
+        element: <Payment />
+      }
+    ]
+  }
 ]);
 
 function App() {

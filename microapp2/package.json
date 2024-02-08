@@ -20,7 +20,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy-build": "cd build && npx http-server --cors",
-    "host-server": "npm run build && npm run deploy-build"
+    "host-server": "npm run build && npm run deploy-build",
+    "prettier_fix": "npx prettier src/* --write"
   },
   "eslintConfig": {
     "extends": [

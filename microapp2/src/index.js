@@ -4,6 +4,8 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.scss";
 
+export const isDevEnv = process.env.REACT_APP_MICROAPP_ENV === "development";
+
 if (process.env.REACT_APP_MICROAPP_ENV === "production") {
   class Microapp2 extends HTMLElement {
     connectedCallback() {
@@ -19,6 +21,6 @@ if (process.env.REACT_APP_MICROAPP_ENV === "production") {
   root.render(
     <React.StrictMode>
       <App />
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 }

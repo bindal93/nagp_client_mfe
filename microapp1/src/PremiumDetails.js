@@ -4,16 +4,13 @@ import { isDevEnv } from "./index.js";
 import "./PremiumDetails.scss";
 
 const PremiumDetails = () => {
-  const [selectedProduct, setSelectedProduct] = useState(
-    MockInsuranceProducts[0],
-  );
+  const [selectedProduct, setSelectedProduct] = useState(MockInsuranceProducts[0]);
   const [formData, setFormData] = useState({ age: "", coverageAmount: "" });
   const [premiumResult, setPremiumResult] = useState(null);
+  const [paymentStatus, setPaymentStatus] = useState(null);
 
   const handleProductChange = (productId) => {
-    const selected = MockInsuranceProducts.find(
-      (product) => product.id === productId,
-    );
+    const selected = MockInsuranceProducts.find((product) => product.id === productId);
     setSelectedProduct(selected);
   };
 
@@ -22,21 +19,26 @@ const PremiumDetails = () => {
   };
 
   const calPremiumCallback = (eventData) => {
-    debugger;
     setPremiumResult(eventData.detail.result);
   };
 
-  const calculatePremium = useCallback(async () => {
-    debugger;
+  const handlePayment = () => {
     if (isDevEnv) {
-      const { calculatePremiumWorker } = await import(
-        "./assets/calculator.worker.js"
-      );
+      setPaymentStatus("Payment Successful!");
+    } else {
+      const paymentEvent = new CustomEvent("proceedToPayment");
+      window.dispatchEvent(paymentEvent);
+    }
+  };
+
+  const calculatePremium = useCallback(async () => {
+    if (isDevEnv) {
+      const { calculatePremiumWorker } = await import("./assets/calculator.worker.js");
       const result = calculatePremiumWorker(formData, selectedProduct);
       setPremiumResult(result);
     } else {
       const calPremium = new CustomEvent("calPremium", {
-        detail: { formData, selectedProduct },
+        detail: { formData, selectedProduct }
       });
       window.dispatchEvent(calPremium);
 
@@ -102,14 +104,18 @@ const PremiumDetails = () => {
             <input
               type="number"
               value={formData.coverageAmount}
-              onChange={(e) =>
-                handleFormChange("coverageAmount", e.target.value)
-              }
+              onChange={(e) => handleFormChange("coverageAmount", e.target.value)}
             />
           </label>
         </form>
         <button onClick={calculatePremium}>Calculate Premium</button>
-        {premiumResult && <div>{premiumResult}</div>}
+        {premiumResult && (
+          <>
+            <div className="premium-result">{premiumResult}</div>
+            <button onClick={handlePayment}>Proceed to Payment</button>
+            {paymentStatus && <p>{paymentStatus}</p>}
+          </>
+        )}
       </div>
     </div>
   );
