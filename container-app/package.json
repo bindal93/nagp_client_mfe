@@ -18,7 +18,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy-build": "cd build && npx http-server --cors",
+    "deploy-build": "npx http-server build --cors --port=8080",
     "host-server": "npm run build && npm run deploy-build",
     "prettier_fix": "npx prettier src/* --write"
   },

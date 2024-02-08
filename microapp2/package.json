@@ -19,7 +19,7 @@
     "build-copy": "cd build && cp static/js/main.*.js static/js/main.js && cp static/css/main.*.css static/css/main.css",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy-build": "cd build && npx http-server --cors",
+    "deploy-build": "npx http-server build --cors --port=8082",
     "host-server": "npm run build && npm run deploy-build",
     "prettier_fix": "npx prettier src/* --write"
   },
