@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
+import "./PremiumDetails.scss";
 import MockInsuranceProducts from "./assets/insuranceProducts.json";
 import { isDevEnv } from "./index.js";
-import "./PremiumDetails.scss";
 
 const PremiumDetails = () => {
   const [selectedProduct, setSelectedProduct] = useState(
@@ -22,9 +22,9 @@ const PremiumDetails = () => {
     setFormData((prevData) => ({ ...prevData, [field]: value }));
   };
 
-  const calPremiumCallback = (eventData) => {
-    setPremiumResult(eventData.detail.result);
-  };
+  // const calPremiumCallback = (eventData) => {
+  //   setPremiumResult(eventData.detail.result);
+  // };
 
   const handlePayment = () => {
     if (isDevEnv) {
@@ -36,9 +36,9 @@ const PremiumDetails = () => {
   };
 
   const calculatePremium = useCallback(async () => {
-    let worker;
+    // let worker;
     // if (isDevEnv) {
-    worker = new Worker(`${process.env.PUBLIC_URL}/calculator.worker.js`);
+    const worker = new Worker(`${process.env.PUBLIC_URL}/calculator.worker.js`);
     if (worker) {
       worker.onmessage = function (event) {
         const result = event.data;
@@ -54,19 +54,18 @@ const PremiumDetails = () => {
     //   window.dispatchEvent(calPremium);
 
     //   window.addEventListener("resolvedCalPremium", calPremiumCallback);
-
-    //   return () => {
-    //     worker?.terminate();
-    //     window.removeEventListener("resolvedCalPremium", calPremiumCallback);
-    //   };
     // }
+    return () => {
+      worker?.terminate();
+      // window.removeEventListener("resolvedCalPremium", calPremiumCallback);
+    };
   }, [formData, selectedProduct]);
 
-  useEffect(() => {
-    return () => {
-      window.removeEventListener("resolvedCalPremium", calPremiumCallback);
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     window.removeEventListener("resolvedCalPremium", calPremiumCallback);
+  //   };
+  // }, []);
 
   return (
     <div className="insurance-container">
