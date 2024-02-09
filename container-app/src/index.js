@@ -19,6 +19,10 @@ const injectStylesheet = (href) => {
 };
 
 // Inject scripts and stylesheets
+// const microappsPath = [
+//   "https://elegant-trifle-b28a51.netlify.app/microapp1/",
+//   "https://elegant-trifle-b28a51.netlify.app/microapp2/"
+// ];
 const microappsPath = ["http://192.168.1.6:8081/", "http://192.168.1.6:8082/"];
 microappsPath.forEach((path) => {
   injectScript(`${path}static/js/main.js`);

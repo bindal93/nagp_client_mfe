@@ -36,24 +36,30 @@ const PremiumDetails = () => {
   };
 
   const calculatePremium = useCallback(async () => {
-    if (isDevEnv) {
-      const { calculatePremiumWorker } = await import(
-        "./assets/calculator.worker.js"
-      );
-      const result = calculatePremiumWorker(formData, selectedProduct);
-      setPremiumResult(result);
-    } else {
-      const calPremium = new CustomEvent("calPremium", {
-        detail: { formData, selectedProduct },
-      });
-      window.dispatchEvent(calPremium);
-
-      window.addEventListener("resolvedCalPremium", calPremiumCallback);
-
-      return () => {
-        window.removeEventListener("resolvedCalPremium", calPremiumCallback);
+    let worker;
+    // if (isDevEnv) {
+    worker = new Worker(`${process.env.PUBLIC_URL}/calculator.worker.js`);
+    if (worker) {
+      worker.onmessage = function (event) {
+        const result = event.data;
+        setPremiumResult(result);
+        worker.terminate();
       };
+      worker.postMessage({ formData, selectedProduct });
     }
+    // } else {
+    //   const calPremium = new CustomEvent("calPremium", {
+    //     detail: { formData, selectedProduct }
+    //   });
+    //   window.dispatchEvent(calPremium);
+
+    //   window.addEventListener("resolvedCalPremium", calPremiumCallback);
+
+    //   return () => {
+    //     worker?.terminate();
+    //     window.removeEventListener("resolvedCalPremium", calPremiumCallback);
+    //   };
+    // }
   }, [formData, selectedProduct]);
 
   useEffect(() => {

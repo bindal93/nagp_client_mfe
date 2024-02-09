@@ -5,25 +5,27 @@ import { useNavigate } from "react-router-dom";
 const PremiumDetails = () => {
   const navigate = useNavigate();
   useEffect(() => {
-    const calculatePremium = async (formData, selectedProduct) => {
-      const { calculatePremiumWorker } = await import(
-        "./assets/calculator.worker.js"
-      );
-      const result = calculatePremiumWorker(formData, selectedProduct);
-      const responseEvent = new CustomEvent("resolvedCalPremium", {
-        detail: { result },
-      });
-      window.dispatchEvent(responseEvent);
-    };
+    // let worker;
+    // const calculatePremium = async (formData, selectedProduct) => {
+    //   worker = new Worker(`${process.env.PUBLIC_URL}/calculator.worker.js`);
+    //   if (worker) {
+    //     worker.onmessage = function (event) {
+    //       const result = event.data;
+    //       const responseEvent = new CustomEvent("resolvedCalPremium", {
+    //         detail: { result }
+    //       });
+    //       window.dispatchEvent(responseEvent);
+    //       worker.terminate();
+    //     };
+    //     worker.postMessage({ formData, selectedProduct });
+    //   }
+    // };
 
-    const calPremiumCallback = (data) => {
-      calculatePremium(
-        { ...data.detail.formData },
-        { ...data.detail.selectedProduct },
-      );
-    };
+    // const calPremiumCallback = (data) => {
+    //   calculatePremium({ ...data.detail.formData }, { ...data.detail.selectedProduct });
+    // };
 
-    window.addEventListener("calPremium", calPremiumCallback);
+    // window.addEventListener("calPremium", calPremiumCallback);
 
     const paymentCallback = () => {
       navigate("/payment");
@@ -32,7 +34,8 @@ const PremiumDetails = () => {
     window.addEventListener("proceedToPayment", paymentCallback);
 
     return () => {
-      window.removeEventListener("calPremium", calPremiumCallback);
+      // worker?.terminate();
+      // window.removeEventListener("calPremium", calPremiumCallback);
       window.removeEventListener("proceedToPayment", paymentCallback);
     };
   }, [navigate]);
