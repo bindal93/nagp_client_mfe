@@ -8,27 +8,23 @@ Getting Started
 To run the container application, use the following command:
 npm run start
 
-Registering Multiple Applications
+- Registering Multiple Applications
 
-    - To register multiple applications and use them as web components in the container application, follow these steps:
+    - To register multiple applications and use them as web components in the container application, follow these steps
         - Host the build files of each micro-application.
         - Add the paths in the index.js file under the microappsPath array object.
-    
     - Main.js and Main.css:
         - Ensure that main.js and main.css files are generated with the correct chunk path:
             - For JS: ${path}static/js/main.js
             - For CSS: ${path}static/css/main.css
-    
     - Running Micro-applications:
         - Run each micro-application individually via:
-            npm run start
+            - npm run start
         - Make sure to run `npm i` in each micro-application before starting to install dependencies.
-    
     - Building Container Application:
-        -Build the container application with the required web component paths.
-        -Host it on an HTTP server or use the host-server command in the container, microapp1, and microapp2 to host the applications.
-
-Structure
+        - Build the container application with the required web component paths.
+        - Host it on an HTTP server or use the host-server command in the container, microapp1, and microapp2 to host the applications.
+- Structure
     - The shell folder contains the shell application.
     - The microapp1 folder contains the first micro-application.
     - The microapp2 folder contains the second micro-application.
